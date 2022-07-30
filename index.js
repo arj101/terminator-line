@@ -8,7 +8,7 @@ image.onload = () => {
     draw()
 }
 
-let sunLat = 1;
+let sunLat = 0.1;
 let sunLon = 0;
 
 const latSlider = document.querySelector('#lat')
@@ -17,7 +17,9 @@ const lonSlider = document.querySelector('#lon')
 function draw() {
     ctx.clearRect(0, 0, canvas.width, canvas.height)
     ctx.drawImage(image, 0, 0, 800, 587)
-    sunLat = latSlider.value
+    if (latSlider.value != 0) {
+        sunLat = latSlider.value
+    }
     sunLon = lonSlider.value
     const { points, metadata: { loopAroundIdx, numPoints } } = calcTerminatorLine(sunLat, sunLon, 5000);
 
