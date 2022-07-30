@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+    <title>Terminator Line</title>
+  </head>
+  <body>
+    <canvas width="800" height="587" style="border: 0;outline:0"></canvas>
+    <div style="display:flex;flex-direction: row;" >
+      <label for="lat">Latitude</label>
+      <input type="range" name="latitude" id="lat" min="-90" max="90" style="width:200px">
+      <label for="lon">Longitude</label>
+      <input type="range" name="longitude" id="lon" min="-180" max="180" style="width:200px">
+    </div>
+    <script src="./terminator.js"></script>
+    <script src="./index.js"></script>
+  </body>
+</html>
