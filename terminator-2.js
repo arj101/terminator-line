@@ -35,16 +35,9 @@ function calcTerminatorLine(sunLat, sunLon, numPoints = 300, latOff = 0, loopAro
     loopAroundDetectionThresh = toRadians(loopAroundDetectionThresh)
     for (let phi = 0; phi <= Math.PI * 2; phi += incr) {
         // following calculations are performed on a sphere of unit radius and assuming that sun's longitude is zero
-        //
-        // x on circle dia = cos(phi)
-        // y on circle dia = sin(phi)
-        //
-        // x on 3d space = x on circle dia
-        // y on 3d space = (y on circle dia) * cos(sunLat)
-        // z on 3d space = (y on circle dia) * sin(sunLat) 
-        const x = a * Math.cos(sAlpha) - b * Math.sin(sAlpha) * Math.sin(phi);
+        const x = b * Math.cos(phi);
         const y = a * Math.sin(sAlpha) + b * Math.cos(sAlpha) * Math.sin(phi);
-        const z = b * Math.cos(phi);
+        const z = a * Math.cos(sAlpha) - b * Math.sin(sAlpha) * Math.sin(phi);
 
 
         const alpha = Math.asin(y) //range: -pi/2 to pi/2, same as latitude
