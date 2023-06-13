@@ -1,4 +1,5 @@
 
+
 /**
  * Calculates day-night(terminator) line from sun's position.
  * 
@@ -19,13 +20,18 @@ function calcTerminatorLine(sunLat, sunLon, numPoints = 300, latOff = 0, loopAro
     const toRadians = (deg) => deg * Math.PI / 180
 
     const sAlpha = toRadians(sunLat)
-    const sBeta = toRadians(0)
-    const offAlpha = toRadians(20);
+    const sBeta = toRadians(sunLon)
+    const offAlpha = toRadians(latOff);
 
     
 
     const points = []
     const incr = Math.PI * 2 / numPoints;
+
+
+    const a = Math.sin(offAlpha)
+    const b =  Math.cos(offAlpha)
+
 
     let prevLon = 0;
     let loopAroundIdx = -1;
@@ -39,10 +45,9 @@ function calcTerminatorLine(sunLat, sunLon, numPoints = 300, latOff = 0, loopAro
         // x on 3d space = x on circle dia
         // y on 3d space = (y on circle dia) * cos(sunLat)
         // z on 3d space = (y on circle dia) * sin(sunLat) 
-        const x = Math.cos(offAlpha) *  Math.cos(phi)
-        const y = Math.cos(offAlpha) * Math.sin(phi) * Math.cos(sAlpha) + Math.sin(offAlpha) * Math.sin(sAlpha);
-        const z = Math.cos(offAlpha) * Math.sin(phi) * Math.sin(sAlpha) + Math.sin(offAlpha) * Math.cos(sAlpha);
-
+        const x = a * Math.cos(sAlpha) - b * Math.sin(sAlpha) * Math.sin(phi);
+        const y = a * Math.sin(sAlpha) + b * Math.cos(sAlpha) * Math.sin(phi);
+        const z = b * Math.cos(phi);
 
 
         const alpha = Math.asin(y) //range: -pi/2 to pi/2, same as latitude
