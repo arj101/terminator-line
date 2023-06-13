@@ -11,6 +11,7 @@
  * (works for any spherical object and infinitely far away light source)
  * @param {number} sunLat latitude of sun in degrees
  * @param {number} sunLon longiude of sun in degrees
+ * @param {number} latOff this thing: https://c.tadst.com/gfx/600x337/twiligh-phases.png
  * @param {number} numPoints 
  * @param {number} loopAroundDetectionThresh how much difference in longitude there needs to be to classify it as a jump from one side of the map to the other
  * @returns {{ points: [[number, number]], metadata: { loopAroundIdx: number, numPoints: number}}} points: [[latitude, longitude]] (in degrees), loopAroundIdx: the index that starts at one side of the map just after jumping from the other side
@@ -23,15 +24,11 @@ function calcTerminatorLine(sunLat, sunLon, numPoints = 300, latOff = 0, loopAro
     const sBeta = toRadians(sunLon)
     const offAlpha = toRadians(latOff);
 
-    
-
     const points = []
     const incr = Math.PI * 2 / numPoints;
 
-
     const a = Math.sin(offAlpha)
     const b =  Math.cos(offAlpha)
-
 
     let prevLon = 0;
     let loopAroundIdx = -1;

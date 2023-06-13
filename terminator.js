@@ -7,28 +7,24 @@
  *  2. Earth is spherical
  * 
  * (Completely independent function)
- * (works for any spherical object and infinitely far away light source)
  * @param {number} sunLat latitude of sun in degrees
  * @param {number} sunLon longiude of sun in degrees
  * @param {number} numPoints 
  * @param {number} loopAroundDetectionThresh how much difference in longitude there needs to be to classify it as a jump from one side of the map to the other
  * @returns {{ points: [[number, number]], metadata: { loopAroundIdx: number, numPoints: number}}} points: [[latitude, longitude]] (in degrees), loopAroundIdx: the index that starts at one side of the map just after jumping from the other side
  */
-function calcTerminatorLine(sunLat, sunLon, numPoints = 300, latOff = 0, loopAroundDetectionThresh = 90) {
+function calcTerminatorLine(sunLat, sunLon, numPoints = 300, loopAroundDetectionThresh = 90) {
     const toDegrees = (rad) => rad * 180 / Math.PI
     const toRadians = (deg) => deg * Math.PI / 180
 
     const sAlpha = toRadians(sunLat)
-    const sBeta = toRadians(0)
-    const offAlpha = toRadians(20);
-
-    
+    const sBeta = toRadians(sunLon)
 
     const points = []
     const incr = Math.PI * 2 / numPoints;
 
     let prevLon = 0;
-    let loopAroundIdx = -1;
+    let loopAroundIdx = 0;
     loopAroundDetectionThresh = toRadians(loopAroundDetectionThresh)
     for (let phi = 0; phi <= Math.PI * 2; phi += incr) {
         // following calculations are performed on a sphere of unit radius and assuming that sun's longitude is zero
@@ -39,11 +35,9 @@ function calcTerminatorLine(sunLat, sunLon, numPoints = 300, latOff = 0, loopAro
         // x on 3d space = x on circle dia
         // y on 3d space = (y on circle dia) * cos(sunLat)
         // z on 3d space = (y on circle dia) * sin(sunLat) 
-        const x = Math.cos(offAlpha) *  Math.cos(phi)
-        const y = Math.cos(offAlpha) * Math.sin(phi) * Math.cos(sAlpha) + Math.sin(offAlpha) * Math.sin(sAlpha);
-        const z = Math.cos(offAlpha) * Math.sin(phi) * Math.sin(sAlpha) + Math.sin(offAlpha) * Math.cos(sAlpha);
-
-
+        const x = Math.cos(phi)
+        const y = Math.sin(phi) * Math.cos(sAlpha)
+        const z = Math.sin(phi) * Math.sin(sAlpha)
 
         const alpha = Math.asin(y) //range: -pi/2 to pi/2, same as latitude
         const beta = Math.atan2(x, z) //range: -pi to pi, same as longitude
